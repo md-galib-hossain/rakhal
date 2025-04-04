@@ -1,0 +1,9 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+      "moduleResolution": "node",
+      "resolveJsonModule": true, "module": "ESNext",
+    "target": "ES2020"
+    }
+  }
+  

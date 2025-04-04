@@ -1,7 +1,8 @@
 {
-  "name": "@repo/db",
+  "name": "@rakhal/db",
   "private": true,
   "type": "module",
+  "main": "src/index.ts",
   "exports": {
     ".": {
       "types": "./src/index.ts",
@@ -19,7 +20,7 @@
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:^",
-    "@repo/typescript-config": "workspace:^",
+    "@rakhal/typescript-config": "workspace:^",
     "prisma": "^6.5.0",
     "tsup": "^8.4.0",
     "typescript": "^5.8.2"

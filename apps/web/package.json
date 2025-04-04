@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@repo/db": "workspace:^",
+    "@rakhal/db": "workspace:^",
     "@repo/queue": "workspace:^",
     "next": "15.2.4",
     "react": "^19.0.0",

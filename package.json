@@ -2,10 +2,16 @@
   "name": "rakhal",
   "private": true,
   "packageManager": "pnpm@10.6.5",
+  "workspaces": [
+    "apps/*",
+    "apps/api/*",
+    "packages/*"
+  ],
   "scripts": {
     "build": "turbo run build",
     "check-types": "turbo run check-types",
-    "db": "pnpm --filter @repo/db",
+    "db": "pnpm --filter @rakhal/db",
+
     "db:init": "pnpm db migrate dev --name init",
     "db:reset": "pnpm docker-dev db:reset && pnpm db migrate dev",
     "dev": "turbo run dev",
@@ -19,5 +25,13 @@
     "prettier": "^3.5.3",
     "turbo": "^2.4.4",
     "typescript": "^5.8.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "db": "link:apps/api/packages/db"
+    }
+  },
+  "dependencies": {
+    "db": "link:apps/api/packages/db"
   }
 }
