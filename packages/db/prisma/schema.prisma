@@ -11,25 +11,151 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        String   @id @db.VarChar(12)
-  userId    String   @db.VarChar(12) @map("user_id")
-  user      User     @relation(fields: [userId], references: [id])
-  content   String   @db.VarChar(240)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
-
-  @@map("posts")
+/// Two enums from your diagram
+enum BreedType {
+  NATIVE
+  CROSS_BRED
+  EXOTIC
 }
 
+enum BreedingStatus {
+  OPEN
+  INSEMINATED
+  PREGNANT
+  MAYBE_PREGNANT
+  DRY
+  ISSUE
+  MILKING_COW
+}
+
+/// (Optional) your auth user model—if you already have one, merge accordingly.
 model User {
-  id        String   @id @db.VarChar(12)
-  username  String   @unique @db.VarChar(32)
-  name      String   @db.VarChar(32)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  id     Int     @id @default(autoincrement())
+  email  String  @unique
+  name   String?
+  farms  Farm[]
+}
 
-  posts Post[]
+/// CowType lookup table
+model CowType {
+  id        Int      @id @default(autoincrement())
+  typeName  String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  @@map("users")
+  cows      Cow[]
+}
+/// The core Cow model
+model Cow {
+  id                   Int             @id @default(autoincrement())
+  tag                  String          @unique
+  farmId               Int
+  cowTypeId            Int?
+  currentGroupId       Int?            // points to the cow’s current Group
+  currentShadeId       Int?            // points to the cow’s current Shade
+  dob                  DateTime?
+  breedType            BreedType?
+  hasDeliveredBefore   Boolean         @default(false)
+  breedingStatus       BreedingStatus?
+  familyId             String?
+  gender               String?
+  isActive             Boolean         @default(true)
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+
+  farm                 Farm            @relation(fields: [farmId], references: [id])
+  cowType              CowType?        @relation(fields: [cowTypeId], references: [id])
+  currentGroup         Group?          @relation("CurrentGroup", fields: [currentGroupId], references: [id])
+  currentShade         Shade?          @relation("CurrentShade", fields: [currentShadeId], references: [id])
+  groupHistory         CowGroup[]
+  shadeHistory         CowShade[]
+
+  @@index([farmId])
+  @@index([cowTypeId])
+  @@index([currentGroupId])
+  @@index([currentShadeId])
+}
+
+/// A Farm belongs to a User (owner), has many Groups, Shades, and Cows
+model Farm {
+  id        Int      @id @default(autoincrement())
+  ownerId   Int
+  name      String
+  location  String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  owner     User     @relation(fields: [ownerId], references: [id])
+  groups    Group[]
+  shades    Shade[]
+  cows      Cow[]
+}
+
+
+
+/// A Shade within a Farm; CowShade tracks history, currentCows is the “live” assignment
+model Shade {
+  id            Int         @id @default(autoincrement())
+  farmId        Int
+  name          String
+  description   String?
+  isActive      Boolean     @default(true)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  farm          Farm        @relation(fields: [farmId], references: [id])
+  currentCows   Cow[]       @relation("CurrentShade")
+  history       CowShade[]
+
+  @@unique([farmId, name])
+}
+/// Join table to track every time a Cow is assigned to a Shade
+model CowShade {
+  id         Int      @id @default(autoincrement())
+  cowId      Int
+  shadeId    Int
+  assignedAt DateTime @default(now())
+
+  cow        Cow      @relation(fields: [cowId], references: [id])
+  shade      Shade    @relation(fields: [shadeId], references: [id])
+
+  @@unique([cowId, shadeId, assignedAt])
+  @@index([cowId])
+  @@index([shadeId])
+}
+
+
+
+/// Join table to track every time a Cow is assigned to a Group
+model CowGroup {
+  id         Int      @id @default(autoincrement())
+  cowId      Int
+  groupId    Int
+  assignedAt DateTime @default(now())
+
+  cow        Cow      @relation(fields: [cowId], references: [id])
+  group      Group    @relation(fields: [groupId], references: [id])
+
+  @@unique([cowId, groupId, assignedAt])
+  @@index([cowId])
+  @@index([groupId])
+}
+
+/// A Group within a Farm; CowGroup tracks history, currentCows is the “live” assignment
+model Group {
+  id            Int         @id @default(autoincrement())
+  farmId        Int
+  name          String
+  description   String?
+  isActive      Boolean     @default(true)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  farm          Farm        @relation(fields: [farmId], references: [id])
+  currentCows   Cow[]       @relation("CurrentGroup")
+  history       CowGroup[]
+
+  @@unique([farmId, name])
 }

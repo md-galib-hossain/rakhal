@@ -2,33 +2,21 @@ import express, { Application, NextFunction, Request, Response } from "express";
 import cors from "cors";
 import httpStatus from "http-status";
 import cookieParser from "cookie-parser";
-import {db} from "@rakhal/db"
+import { db } from "@rakhal/db";
 const app: Application = express();
 
-app.use(cors(
+app.use(
+  cors(),
   // {origin : ["http://localhost:3000"], credentials : true}
-));
+);
 app.use(cookieParser());
 //parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-
-
 app.get("/", async (req: Request, res: Response) => {
-
-  const result  =  await db.user.create({
-    data:{
-      id:"sdfdsd",
-      name:"galib",
-      username:"rrr",
-
-    }
-  })
   res.send({
     message: "Hello",
-    result
   });
 });
 // app.use("/api/v1", router);
