@@ -1,0 +1,23 @@
+{
+  "name": "@rakhal/validation-schemas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.7.1",
+  "dependencies": {
+    "zod": "^3.24.2"
+   
+  },
+  "devDependencies": {
+    "@rakhal/typescript-config": "workspace:*",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.2"
+  }
+}
