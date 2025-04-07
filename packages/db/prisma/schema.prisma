@@ -1,4 +1,3 @@
-
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
@@ -30,46 +29,47 @@ enum BreedingStatus {
 
 /// (Optional) your auth user model—if you already have one, merge accordingly.
 model User {
-  id     Int     @id @default(autoincrement())
-  email  String  @unique
-  name   String?
-  farms  Farm[]
+  id    String  @id @default(uuid())
+  email String  @unique
+  name  String?
+  farms Farm[]
 }
 
 /// CowType lookup table
 model CowType {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   typeName  String   @unique
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  cows      Cow[]
+  cows Cow[]
 }
+
 /// The core Cow model
 model Cow {
-  id                   Int             @id @default(autoincrement())
-  tag                  String          @unique
-  farmId               Int
-  cowTypeId            Int?
-  currentGroupId       Int?            // points to the cow’s current Group
-  currentShadeId       Int?            // points to the cow’s current Shade
-  dob                  DateTime?
-  breedType            BreedType?
-  hasDeliveredBefore   Boolean         @default(false)
-  breedingStatus       BreedingStatus?
-  familyId             String?
-  gender               String?
-  isActive             Boolean         @default(true)
-  createdAt            DateTime        @default(now())
-  updatedAt            DateTime        @updatedAt
+  id                 String          @id @default(uuid())
+  tag                String          @unique
+  farmId             String
+  cowTypeId          String?
+  currentGroupId     String? // points to the cow’s current Group
+  currentShadeId     String? // points to the cow’s current Shade
+  dob                DateTime?
+  breedType          BreedType?
+  hasDeliveredBefore Boolean         @default(false)
+  breedingStatus     BreedingStatus?
+  familyId           String?
+  gender             String?
+  isActive           Boolean         @default(true)
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
 
-  farm                 Farm            @relation(fields: [farmId], references: [id])
-  cowType              CowType?        @relation(fields: [cowTypeId], references: [id])
-  currentGroup         Group?          @relation("CurrentGroup", fields: [currentGroupId], references: [id])
-  currentShade         Shade?          @relation("CurrentShade", fields: [currentShadeId], references: [id])
-  groupHistory         CowGroup[]
-  shadeHistory         CowShade[]
+  farm         Farm       @relation(fields: [farmId], references: [id])
+  cowType      CowType?   @relation(fields: [cowTypeId], references: [id])
+  currentGroup Group?     @relation("CurrentGroup", fields: [currentGroupId], references: [id])
+  currentShade Shade?     @relation("CurrentShade", fields: [currentShadeId], references: [id])
+  groupHistory CowGroup[]
+  shadeHistory CowShade[]
 
   @@index([farmId])
   @@index([cowTypeId])
@@ -79,64 +79,61 @@ model Cow {
 
 /// A Farm belongs to a User (owner), has many Groups, Shades, and Cows
 model Farm {
-  id        Int      @id @default(autoincrement())
-  ownerId   Int
+  id        String   @id @default(uuid())
+  ownerId   String
   name      String
   location  String?
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  owner     User     @relation(fields: [ownerId], references: [id])
-  groups    Group[]
-  shades    Shade[]
-  cows      Cow[]
+  owner  User    @relation(fields: [ownerId], references: [id])
+  groups Group[]
+  shades Shade[]
+  cows   Cow[]
 }
-
-
 
 /// A Shade within a Farm; CowShade tracks history, currentCows is the “live” assignment
 model Shade {
-  id            Int         @id @default(autoincrement())
-  farmId        Int
-  name          String
-  description   String?
-  isActive      Boolean     @default(true)
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  id          String   @id @default(uuid())
+  farmId      String
+  name        String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  farm          Farm        @relation(fields: [farmId], references: [id])
-  currentCows   Cow[]       @relation("CurrentShade")
-  history       CowShade[]
+  farm        Farm       @relation(fields: [farmId], references: [id])
+  currentCows Cow[]      @relation("CurrentShade")
+  history     CowShade[]
 
   @@unique([farmId, name])
 }
+
 /// Join table to track every time a Cow is assigned to a Shade
 model CowShade {
-  id         Int      @id @default(autoincrement())
-  cowId      Int
-  shadeId    Int
+  id         String   @id @default(uuid())
+  cowId      String
+  shadeId    String
   assignedAt DateTime @default(now())
 
-  cow        Cow      @relation(fields: [cowId], references: [id])
-  shade      Shade    @relation(fields: [shadeId], references: [id])
+  cow   Cow   @relation(fields: [cowId], references: [id])
+  shade Shade @relation(fields: [shadeId], references: [id])
 
   @@unique([cowId, shadeId, assignedAt])
   @@index([cowId])
   @@index([shadeId])
 }
 
-
-
 /// Join table to track every time a Cow is assigned to a Group
 model CowGroup {
-  id         Int      @id @default(autoincrement())
-  cowId      Int
-  groupId    Int
+  id         String   @id @default(uuid())
+  cowId      String
+  groupId    String
   assignedAt DateTime @default(now())
 
-  cow        Cow      @relation(fields: [cowId], references: [id])
-  group      Group    @relation(fields: [groupId], references: [id])
+  cow   Cow   @relation(fields: [cowId], references: [id])
+  group Group @relation(fields: [groupId], references: [id])
 
   @@unique([cowId, groupId, assignedAt])
   @@index([cowId])
@@ -145,17 +142,17 @@ model CowGroup {
 
 /// A Group within a Farm; CowGroup tracks history, currentCows is the “live” assignment
 model Group {
-  id            Int         @id @default(autoincrement())
-  farmId        Int
-  name          String
-  description   String?
-  isActive      Boolean     @default(true)
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  id          String   @id @default(uuid())
+  farmId      String
+  name        String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  farm          Farm        @relation(fields: [farmId], references: [id])
-  currentCows   Cow[]       @relation("CurrentGroup")
-  history       CowGroup[]
+  farm        Farm       @relation(fields: [farmId], references: [id])
+  currentCows Cow[]      @relation("CurrentGroup")
+  history     CowGroup[]
 
   @@unique([farmId, name])
 }

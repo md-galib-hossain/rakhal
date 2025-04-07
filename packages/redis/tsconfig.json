@@ -1,0 +1,10 @@
+{
+  "extends": "@rakhal/typescript-config/base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "module": "ESNext", 
+    "target": "ES2020"
+  },
+  "include": ["."],
+  "exclude": ["node_modules", "dist"]
+}

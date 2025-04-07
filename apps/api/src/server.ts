@@ -1,7 +1,6 @@
 import { Server } from "http";
 import config from "./app/config";
 import app from "./app";
-
 const main = async () => {
   const server: Server = app.listen(config.PORT, () => {
     console.log("Server listening on port: ", config.PORT);
@@ -27,3 +26,4 @@ const main = async () => {
   });
 };
 main();
+

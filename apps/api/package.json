@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
-    "server": "ts-node src/server.ts"
+    "server": "ts-node-dev --respawn --transpile-only src/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +14,9 @@
   "packageManager": "pnpm@10.6.5",
   "dependencies": {
     "@rakhal/db": "workspace:*",
+    "@rakhal/validation-schemas": "workspace:*",
+    "@rakhal/eslint-config": "workspace:*",
+    "@rakhal/redis": "workspace:*",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
@@ -21,10 +24,12 @@
     "http-status": "^2.1.0"
   },
   "devDependencies": {
+    "@rakhal/typescript-config": "workspace:*",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
-    "ts-node": "^10.9.2",
+  
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.2"
   }
 }

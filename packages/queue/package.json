@@ -15,7 +15,7 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:^",
+    "@rakhal/eslint-config": "workspace:^",
     "@rakhal/typescript-config": "workspace:^",
     "tsup": "^8.4.0",
     "typescript": "^5.8.2"
