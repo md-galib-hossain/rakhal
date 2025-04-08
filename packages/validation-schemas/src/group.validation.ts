@@ -21,3 +21,4 @@ export const createGroupSchema = groupSchema.omit({
 export const updateGroupSchema = groupSchema.partial().extend({
   id: z.string().uuid(),
 });
+export const GroupValidationSchema= {createGroupSchema,updateGroupSchema}

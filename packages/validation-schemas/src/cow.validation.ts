@@ -41,3 +41,5 @@ export const updateCowSchema = cowSchema.partial().extend({
   id: z.string().uuid(),
 });
 
+
+export const CowValidationSchema= {createCowSchema,updateCowSchema}

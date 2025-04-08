@@ -21,3 +21,4 @@ export const createFarmSchema = farmSchema.omit({
 export const updateFarmSchema = farmSchema.partial().extend({
   id: z.string().uuid(),
 });
+export const FarmValidationSchema= {createFarmSchema,updateFarmSchema}

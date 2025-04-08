@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@rakhal/typescript-config": "workspace:*",
+    "@rakhal/types": "workspace:*",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",

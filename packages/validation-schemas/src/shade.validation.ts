@@ -21,3 +21,5 @@ export const createShadeSchema = shadeSchema.omit({
 export const updateShadeSchema = shadeSchema.partial().extend({
   id: z.string().uuid(),
 });
+
+export const ShadeValidationSchema= {createShadeSchema,updateShadeSchema}

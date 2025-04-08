@@ -22,3 +22,4 @@ export const updateCowTypeSchema = cowTypeSchema.partial().extend({
   typeName: z.string().min(1, "Type name is required"),
 
 });
+export const CowTypeValidationSchema= {createCowTypeSchema,updateCowTypeSchema}
