@@ -3,7 +3,6 @@ import { getOrSetCache } from "@rakhal/redis";
 import {CreateCowPayload} from "@rakhal/types"
 const createCow = async (cow:CreateCowPayload) => {
   
-
   const result = await db.cow.create({
     data: cow,
   });
