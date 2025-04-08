@@ -29,8 +29,8 @@ export interface Cow {
   cowType?: CowType;
   currentGroup?: Group;
   currentShade?: Shade;
-  groupHistory: CowGroup[];
-  shadeHistory: CowShade[];
+  groupHistory?: CowGroup[];
+  shadeHistory?: CowShade[];
 }
 
 

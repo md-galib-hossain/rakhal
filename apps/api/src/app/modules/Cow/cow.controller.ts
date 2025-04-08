@@ -15,12 +15,13 @@ const createCow = catchAsync(async(req,res)=> {
 })
 
 const getAllCows = catchAsync(async(req,res)=> {
-    const result = await CowService.getAllCows()
+    const result = await CowService.getAllCows(req.query)
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
         message: "Cows retrieved successfully!",
-        data: result
+        data: result.data,
+        meta:result.meta
     });
 })
 
