@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { AnyZodObject } from "@rakhal/validation-schemas";
+import { AnyZodObject } from "@rakhal/validation-schemas/dist/src";
 
 const validateRequest = (schema: AnyZodObject) => {
     return async (req: Request, res: Response, next: NextFunction) => {
