@@ -27,17 +27,44 @@ class QueryBuilder<T> {
   }
 
   search(searchableFields: string[]) {
-    // … your existing search impl …
+    const term = this.query.searchTerm as string|undefined;
+    if (!term) return this;
+  
+    const OR = searchableFields.map(field => {
+      // list your enum fields explicitly
+      const enumFields = ['breedType','gender','breedingStatus'];
+      if (enumFields.includes(field)) {
+        return { [field]: { equals: term.toUpperCase() } };
+      }
+      // assume string
+      return { [field]: { contains: term, mode: 'insensitive' } };
+    });
+  
+    this.args.where = { ...this.args.where, OR };
     return this;
   }
+  
 
   filter() {
-    // … your existing filter impl …
+    const queryObj = { ...this.query };
+    const excludeFields = ["searchTerm", "sort", "limit", "page", "fields"];
+    excludeFields.forEach((el) => delete queryObj[el]);
+    this.args.where = { ...this.args.where, ...queryObj };
     return this;
   }
 
   sort() {
-    // … your existing sort impl …
+    const sort = this.query.sort as string | undefined;
+    if (sort) {
+      const sortFields = sort.split(',').map((field) =>
+        field.startsWith('-')
+          ? { [field.slice(1)]: 'desc' }
+          : { [field]: 'asc' }
+      );
+      this.args.orderBy = sortFields;
+    } else {
+      this.args.orderBy = [{ createdAt: 'desc' }];
+    }
     return this;
   }
 
@@ -53,9 +80,24 @@ class QueryBuilder<T> {
   }
 
   fields() {
-    // … your existing fields impl …
+    const fieldsParam = this.query.fields;
+    if (fieldsParam && typeof fieldsParam === 'string') {
+      const fields = fieldsParam.split(',').map((field) => field.trim());
+  
+      if (fields.length > 0) {
+        // If select is used, remove include to avoid Prisma conflict
+        delete this.args.include;
+  
+        this.args.select = fields.reduce((acc: Record<string, boolean>, field) => {
+          acc[field] = true;
+          return acc;
+        }, {});
+      }
+    }
     return this;
   }
+  
+  
 
   async execute(): Promise<T[]> {
     return this.delegate.findMany(this.args);
