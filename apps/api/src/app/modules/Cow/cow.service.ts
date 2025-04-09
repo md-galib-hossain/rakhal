@@ -23,7 +23,7 @@ const getAllCows = async (query: Record<string, unknown>) => {
     .search(['tag'])
     .filter()
     .sort()
-    .paginate()
+    .cursorPaginate()
     .fields();
 
   // const cacheKey = `cows:${JSON.stringify(query)}`;

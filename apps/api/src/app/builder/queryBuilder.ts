@@ -1,18 +1,18 @@
 type Delegate<T> = {
-    findMany: (args: any) => Promise<T[]>;
-  };
+  findMany: (args: any) => Promise<T[]>;
+};
+
 interface Meta {
-  page: number;
+  page?: number;    // page is now optional—cursor pagination is stateless
   limit: number;
   total: number;
+  nextCursor?: string | null;
 }
 
 class QueryBuilder<T> {
   private delegate: Delegate<T>;
   private args: any;
   private query: Record<string, unknown>;
-  // store page & limit for meta
-  private _page = 1;
   private _limit = 5;
 
   constructor(delegate: Delegate<T>, query: Record<string, unknown>) {
@@ -27,27 +27,31 @@ class QueryBuilder<T> {
   }
 
   search(searchableFields: string[]) {
-    const term = this.query.searchTerm as string|undefined;
+    const term = this.query.searchTerm as string | undefined;
     if (!term) return this;
-  
-    const OR = searchableFields.map(field => {
-      // list your enum fields explicitly
-      const enumFields = ['breedType','gender','breedingStatus'];
+
+    const OR = searchableFields.map((field) => {
+      const enumFields = ['breedType', 'gender', 'breedingStatus'];
       if (enumFields.includes(field)) {
         return { [field]: { equals: term.toUpperCase() } };
       }
-      // assume string
       return { [field]: { contains: term, mode: 'insensitive' } };
     });
-  
+
     this.args.where = { ...this.args.where, OR };
     return this;
   }
-  
 
   filter() {
     const queryObj = { ...this.query };
-    const excludeFields = ["searchTerm", "sort", "limit", "page", "fields"];
+    const excludeFields = [
+      'searchTerm',
+      'sort',
+      'limit',
+      'page',
+      'fields',
+      'cursor',
+    ];
     excludeFields.forEach((el) => delete queryObj[el]);
     this.args.where = { ...this.args.where, ...queryObj };
     return this;
@@ -68,36 +72,46 @@ class QueryBuilder<T> {
     return this;
   }
 
-  paginate() {
-    const page = Number(this.query.page) || 1;
-    const limit = Number(this.query.limit) || 5;
-    this._page = page;
+  /** 
+   * Cursor‐based pagination. 
+   * - `cursor` is the last‐seen record’s primary key (id).
+   * - `limit` is the page size.
+   */
+  cursorPaginate() {
+    const limit = Number(this.query.limit) || this._limit;
     this._limit = limit;
 
-    this.args.skip = (page - 1) * limit;
-    this.args.take = limit;
+    const cursor = this.query.cursor as string | undefined;
+    if (cursor) {
+      // skip the cursor itself, take the next `limit`
+      this.args.cursor = { id: cursor };
+      this.args.take = limit;
+      this.args.skip = 1;
+    } else {
+      // first page: just take `limit`
+      this.args.take = limit;
+    }
+
     return this;
   }
 
   fields() {
     const fieldsParam = this.query.fields;
     if (fieldsParam && typeof fieldsParam === 'string') {
-      const fields = fieldsParam.split(',').map((field) => field.trim());
-  
-      if (fields.length > 0) {
-        // If select is used, remove include to avoid Prisma conflict
+      const fields = fieldsParam.split(',').map((f) => f.trim());
+      if (fields.length) {
         delete this.args.include;
-  
-        this.args.select = fields.reduce((acc: Record<string, boolean>, field) => {
-          acc[field] = true;
-          return acc;
-        }, {});
+        this.args.select = fields.reduce(
+          (acc: Record<string, boolean>, field) => {
+            acc[field] = true;
+            return acc;
+          },
+          {}
+        );
       }
     }
     return this;
   }
-  
-  
 
   async execute(): Promise<T[]> {
     return this.delegate.findMany(this.args);
@@ -105,22 +119,28 @@ class QueryBuilder<T> {
 
   /**
    * Runs the data query and a matching count query, then returns { meta, data }.
+   * For cursor pagination, meta.nextCursor will be the `id` of the last item.
    */
   async executeWithMeta(): Promise<{ meta: Meta; data: T[] }> {
-    // 1) Build a countArgs object by cloning args and removing skip/take/orderBy/include/select
-    const { skip, take, orderBy, include, select, ...countArgs } = this.args;
+    // count all matching records
+    const countArgs = { where: this.args.where };
+    const total = await (this.delegate as any).count(countArgs);
 
-    // 2) Run both queries in parallel
-    const [data, total] = await Promise.all([
-      this.delegate.findMany(this.args),
-      (this.delegate as any).count(countArgs),
-    ]);
+    // fetch data
+    const data: T[] = await this.delegate.findMany(this.args);
+
+    // determine nextCursor
+    const nextCursor =
+      data.length === this._limit
+        ? // @ts-ignore assume T has `id`
+          (data[data.length - 1] as any).id
+        : null;
 
     return {
       meta: {
-        page: this._page,
         limit: this._limit,
         total,
+        nextCursor,
       },
       data,
     };
