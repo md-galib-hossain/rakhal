@@ -124,18 +124,23 @@ class QueryBuilder<T> {
   async executeWithMeta(): Promise<{ meta: Meta; data: T[] }> {
     // count all matching records
     const countArgs = { where: this.args.where };
-    const total = await (this.delegate as any).count(countArgs);
+  
+    // 2) Run the two queries
+    const [data, total] = await Promise.all([
+          // fetch data
 
-    // fetch data
-    const data: T[] = await this.delegate.findMany(this.args);
-
-    // determine nextCursor
-    const nextCursor =
-      data.length === this._limit
-        ? // @ts-ignore assume T has `id`
-          (data[data.length - 1] as any).id
-        : null;
-
+      this.delegate.findMany(this.args),
+      // count returns a number, so just pass where
+      (this.delegate as any).count(countArgs),
+    ]);
+  
+    // 3) Compute nextCursor if using cursor pagination
+    let nextCursor: string | null = null;
+    if (data.length === this._limit) {
+      // @ts-ignore assume T has `id`
+      nextCursor = (data[data.length - 1] as any).id;
+    }
+  
     return {
       meta: {
         limit: this._limit,
@@ -145,6 +150,7 @@ class QueryBuilder<T> {
       data,
     };
   }
+  
 }
 
 export default QueryBuilder;

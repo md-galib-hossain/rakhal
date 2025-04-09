@@ -2,6 +2,7 @@ import { db } from "@rakhal/db";
 import {  Cow, CreateCowPayload } from "@rakhal/types";
 import QueryBuilder from "../../builder/queryBuilder";
 import { TGenericResponse } from "../../interface/interface";
+import { buildCowInclude, normalizeQuery } from "./cow.utils";
 
 const createCow = async (cow: CreateCowPayload) => {
   const result = await db.cow.create({
@@ -10,35 +11,21 @@ const createCow = async (cow: CreateCowPayload) => {
   return result;
 };
 
-const getAllCows = async (query: Record<string, unknown>) => {
-  const queryBuilder = new QueryBuilder(db.cow, query)
-    .include({
-      farm: true,
-      cowType: true,
-      currentGroup: true,
-      currentShade: true,
-      groupHistory: true,
-      shadeHistory: true,
-    })
+const getAllCows = async (rawQuery: Record<string, unknown>) => {
+  const { cleaned: query, withHistory } = normalizeQuery(rawQuery);
+
+  const include = buildCowInclude(withHistory);
+
+  const qb = new QueryBuilder(db.cow, query)
+    .include(include)
     .search(['tag'])
     .filter()
     .sort()
     .cursorPaginate()
     .fields();
 
-  // const cacheKey = `cows:${JSON.stringify(query)}`;
-  // const {meta,data} = await getOrSetCache<TGenericResponse<Cow[]>>({
-  //   key: cacheKey,
-  //   ttl: 60,
-  //   fetcher: () => queryBuilder.executeWithMeta(),
-  // });
-
-  
-  const {meta,data} =await  queryBuilder.executeWithMeta()
-  
-  return {
-    meta,data
-  };
+  const { meta, data } = await qb.executeWithMeta();
+  return { meta, data };
 };
 
 
