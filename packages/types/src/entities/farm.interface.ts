@@ -7,7 +7,7 @@ export interface Farm {
   id: string;
   ownerId: string;
   name: string;
-  location?: string;
+  location: string|null;
   isActive: boolean;
   createdAt: Date; 
   updatedAt: Date; 
@@ -17,6 +17,7 @@ export interface Farm {
   shades: Shade[];
   cows: Cow[];
 }
+export interface BaseFarm extends Omit<Farm,"owner"|"groups"|"shades"|"cows"> {}
 
 export type CreateFarmPayload = Omit<Partial<Farm>, "id" | "createdAt" | "updatedAt" | "owner" | "groups" | "shades" | "cows"> & {
   ownerId: string;

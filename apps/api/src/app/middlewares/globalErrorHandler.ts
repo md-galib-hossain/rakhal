@@ -29,6 +29,11 @@ else if( err instanceof Prisma.PrismaClientKnownRequestError){
     error = err.meta;
     statusCode= httpStatus.CONFLICT
   }
+  if(err.code === 'P2025'){
+    message = 'Entity not found!';
+    error = err.meta;
+    statusCode= httpStatus.NOT_FOUND
+  }
 }else if (err instanceof ZodError) {
  
   const simplifiedError = handleZodError(err);

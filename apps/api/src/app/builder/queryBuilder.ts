@@ -3,10 +3,10 @@ type Delegate<T> = {
 };
 
 interface Meta {
-  page?: number;    // page is now optional—cursor pagination is stateless
-  limit: number;
-  total: number;
-  nextCursor?: string | null;
+  page: number | undefined;    
+  limit: number| undefined;
+  total: number| undefined;
+  nextCursor?: string | null | undefined;
 }
 
 class QueryBuilder<T> {
@@ -51,8 +51,16 @@ class QueryBuilder<T> {
       'page',
       'fields',
       'cursor',
+      'showAll'
     ];
     excludeFields.forEach((el) => delete queryObj[el]);
+
+    // Apply isActive: true by default, unless showAll is true
+    const showAll = this.query.showAll === true || this.query.showAll === 'true';
+    if (!showAll) {
+      this.args.where = { ...this.args.where, isActive: true };
+    }
+
     this.args.where = { ...this.args.where, ...queryObj };
     return this;
   }
@@ -143,6 +151,7 @@ class QueryBuilder<T> {
   
     return {
       meta: {
+        page: this.query.page ? Number(this.query.page) : undefined,
         limit: this._limit,
         total,
         nextCursor,

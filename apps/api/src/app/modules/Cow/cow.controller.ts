@@ -13,9 +13,30 @@ const createCow = catchAsync(async(req,res)=> {
         data: result
     });
 })
+const updateCow = catchAsync(async(req,res)=> {
+const {id}= req.params
+    const result = await CowService.updateCow(id,req.body)
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Cow updated successfully!",
+        data: result
+    });
+})
+const toggleIsActiveCow = catchAsync(async(req,res)=> {
+const {id}= req.params
+    const result = await CowService.updateCow(id,req.body)
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Active status changed successfully!",
+        data: result
+    });
+})
 
 const getAllCows = catchAsync(async(req,res)=> {
     const result = await CowService.getAllCows(req.query)
+   
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
@@ -26,6 +47,6 @@ const getAllCows = catchAsync(async(req,res)=> {
 })
 
 export const CowController = {
-    createCow,
-    getAllCows
+    createCow,updateCow,
+    getAllCows,toggleIsActiveCow
 }

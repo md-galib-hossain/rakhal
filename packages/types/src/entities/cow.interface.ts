@@ -12,26 +12,28 @@ export interface Cow {
   id: string;
   tag: string;
   farmId: string;
-  cowTypeId?: string;
-  currentGroupId?: string;
-  currentShadeId?: string;
-  dob?: Date; 
-  breedType?: BreedType;
+  cowTypeId?: string| null;
+  currentGroupId?: string | null;
+  currentShadeId?: string |null;
+  dob?: Date| null; 
+  breedType?: BreedType| null;
   hasDeliveredBefore: boolean;
-  breedingStatus?: BreedingStatus;
-  familyId?: string;
-  gender?: string;
+  breedingStatus?: BreedingStatus| null;
+  familyId?: string| null;
+  gender?: string| null;
   isActive: boolean;
   createdAt: Date; 
   updatedAt: Date; 
 
   farm: Farm;
-  cowType?: CowType;
-  currentGroup?: Group;
-  currentShade?: Shade;
-  groupHistory?: CowGroup[];
-  shadeHistory?: CowShade[];
+  cowType: CowType| null | undefined;
+  currentGroup: Group| null| undefined;
+  currentShade: Shade| null| undefined;
+  groupHistory: CowGroup[] | null| undefined;
+  shadeHistory: CowShade[] | null;
 }
+
+export interface BaseCow extends Omit<Cow, 'groupHistory' | 'shadeHistory'|'farm' | 'cowType' | 'currentGroup' | 'currentShade'> {}
 
 
 

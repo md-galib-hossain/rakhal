@@ -13,3 +13,4 @@ export interface CowType {
     isActive: boolean;
   };
   
+  export interface BaseCowType extends Omit<CowType,"cows">{}

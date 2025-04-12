@@ -37,9 +37,11 @@ export const createCowSchema = cowSchema.omit({
   createdAt: true,
   updatedAt: true,
 });
-export const updateCowSchema = cowSchema.partial().extend({
-  id: z.string().uuid(),
-});
-
+export const updateCowSchema = cowSchema.omit({
+  id:true,
+  isActive:true,
+  createdAt:true,
+  updatedAt:true
+}).partial()
 
 export const CowValidationSchema= {createCowSchema,updateCowSchema}
