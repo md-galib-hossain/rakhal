@@ -15,7 +15,7 @@ export interface CowGroup {
     id: string;
     farmId: string;
     name: string;
-    description?: string;
+    description: string | null;
     isActive: boolean;
     createdAt: Date; 
     updatedAt: Date; 
@@ -25,6 +25,7 @@ export interface CowGroup {
     history: CowGroup[];
   }
   
+  export interface BaseGroup extends Omit<Group, "farm" | "currentCows" | "history"> {}
   export type CreateGroupPayload = Omit<Partial<Group>, "id" | "createdAt" | "updatedAt" | "farm" | "currentCows" | "history"> & {
     farmId: string;
     name: string;

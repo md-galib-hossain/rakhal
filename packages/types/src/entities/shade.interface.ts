@@ -5,7 +5,7 @@ export interface Shade {
   id: string;
   farmId: string;
   name: string;
-  description?: string;
+  description: string | null;
   isActive: boolean;
   createdAt: Date; 
   updatedAt: Date; 
@@ -14,6 +14,7 @@ export interface Shade {
   currentCows: Cow[];
   history: CowShade[];
 }
+export interface BaseShade extends Omit<Shade,"farm"|"currentCows"|"history"> {}
 export interface CowShade {
     id: string;
     cowId: string;
