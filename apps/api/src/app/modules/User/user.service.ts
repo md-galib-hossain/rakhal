@@ -4,6 +4,7 @@ const createUser = async (payload: any) => {
   const result = await db.user.create({
     data: payload,
   });
+  
   return result;
 };
 

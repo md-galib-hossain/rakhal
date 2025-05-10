@@ -27,10 +27,54 @@ enum BreedingStatus {
 }
 
 model User {
-  id    String  @id @default(uuid())
-  email String  @unique
-  name  String?
-  farms Farm[]
+  id            String    @id @default(uuid())
+  email         String    @unique
+  name          String
+  emailVerified Boolean?  @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  farms         Farm[]
+  session       Session[]
+  account       Account[]
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Account {
+  id                    String    @id @default(uuid())
+  userId                String
+  accountId             String
+  providerId            String
+  accessToken           String?
+  refreshToken          String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  idToken               String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  user                  User      @relation(fields: [userId], references: [id])
+}
+
+model Verification {
+  id String @id @default(uuid())
+  identifier String
+  value String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 /// CowType lookup table
@@ -62,12 +106,12 @@ model Cow {
   createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt
 
-  farm         Farm       @relation(fields: [farmId], references: [id])
-  cowType      CowType?   @relation(fields: [cowTypeId], references: [id])
-  currentGroup Group?     @relation("CurrentGroup", fields: [currentGroupId], references: [id])
-  currentShade Shade?     @relation("CurrentShade", fields: [currentShadeId], references: [id])
-  groupHistory CowGroup[]
-  shadeHistory CowShade[]
+  farm         Farm     @relation(fields: [farmId], references: [id])
+  cowType      CowType? @relation(fields: [cowTypeId], references: [id])
+  currentGroup Group?   @relation("CurrentGroup", fields: [currentGroupId], references: [id])
+  currentShade Shade?   @relation("CurrentShade", fields: [currentShadeId], references: [id])
+  // groupHistory CowGroup[]
+  // shadeHistory CowShade[]
 
   @@index([farmId])
   @@index([cowTypeId])
@@ -101,42 +145,42 @@ model Shade {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  farm        Farm       @relation(fields: [farmId], references: [id])
-  currentCows Cow[]      @relation("CurrentShade")
-  history     CowShade[]
+  farm        Farm  @relation(fields: [farmId], references: [id])
+  currentCows Cow[] @relation("CurrentShade")
+  // history     CowShade[]
 
   @@unique([farmId, name])
 }
 
 /// Join table to track every time a Cow is assigned to a Shade
-model CowShade {
-  id         String   @id @default(uuid())
-  cowId      String
-  shadeId    String
-  assignedAt DateTime @default(now())
+// model CowShade {
+//   id         String   @id @default(uuid())
+//   cowId      String
+//   shadeId    String
+//   assignedAt DateTime @default(now())
 
-  cow   Cow   @relation(fields: [cowId], references: [id])
-  shade Shade @relation(fields: [shadeId], references: [id])
+//   cow   Cow   @relation(fields: [cowId], references: [id])
+//   shade Shade @relation(fields: [shadeId], references: [id])
 
-  @@unique([cowId, shadeId, assignedAt])
-  @@index([cowId])
-  @@index([shadeId])
-}
+//   @@unique([cowId, shadeId, assignedAt])
+//   @@index([cowId])
+//   @@index([shadeId])
+// }
 
 /// Join table to track every time a Cow is assigned to a Group
-model CowGroup {
-  id         String   @id @default(uuid())
-  cowId      String
-  groupId    String
-  assignedAt DateTime @default(now())
+// model CowGroup {
+//   id         String   @id @default(uuid())
+//   cowId      String
+//   groupId    String
+//   assignedAt DateTime @default(now())
 
-  cow   Cow   @relation(fields: [cowId], references: [id])
-  group Group @relation(fields: [groupId], references: [id])
+//   cow   Cow   @relation(fields: [cowId], references: [id])
+//   group Group @relation(fields: [groupId], references: [id])
 
-  @@unique([cowId, groupId, assignedAt])
-  @@index([cowId])
-  @@index([groupId])
-}
+//   @@unique([cowId, groupId, assignedAt])
+//   @@index([cowId])
+//   @@index([groupId])
+// }
 
 /// A Group within a Farm; CowGroup tracks history, currentCows is the “live” assignment
 model Group {
@@ -148,9 +192,9 @@ model Group {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  farm        Farm       @relation(fields: [farmId], references: [id])
-  currentCows Cow[]      @relation("CurrentGroup")
-  history     CowGroup[]
+  farm        Farm  @relation(fields: [farmId], references: [id])
+  currentCows Cow[] @relation("CurrentGroup")
+  // history     CowGroup[]
 
   @@unique([farmId, name])
 }

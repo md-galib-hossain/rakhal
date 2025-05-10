@@ -1,0 +1,255 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 262 83% 58%;
+    --radius: 0.5rem;
+    --sidebar: 0 0% 100%;
+    --sidebar-foreground: 240 10% 3.9%;
+    --sidebar-muted: 240 4.8% 95.9%;
+    --sidebar-muted-foreground: 240 3.8% 46.1%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-gradient-from: 0 0% 100%;
+    --sidebar-gradient-to: 0 0% 95%;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 262 83% 58%;
+    --sidebar: 240 10% 3.9%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-muted: 240 3.7% 15.9%;
+    --sidebar-muted-foreground: 240 5% 64.9%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-gradient-from: 240 10% 3.9%;
+    --sidebar-gradient-to: 240 10% 10%;
+  }
+
+  /* Purple theme */
+  .theme-purple {
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 98%;
+    --sidebar: 262 83% 58%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-muted: 262 83% 52%;
+    --sidebar-muted-foreground: 0 0% 90%;
+    --sidebar-accent: 262 83% 48%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-gradient-from: 262 83% 58%;
+    --sidebar-gradient-to: 262 83% 40%;
+  }
+
+  /* Dark theme */
+  .theme-dark {
+    --primary: 240 10% 3.9%;
+    --primary-foreground: 0 0% 98%;
+    --sidebar: 240 10% 3.9%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-muted: 240 3.7% 15.9%;
+    --sidebar-muted-foreground: 240 5% 64.9%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-gradient-from: 240 10% 3.9%;
+    --sidebar-gradient-to: 240 10% 10%;
+  }
+
+  /* Light theme */
+  .theme-light {
+    --primary: 0 0% 100%;
+    --primary-foreground: 240 10% 3.9%;
+    --sidebar: 0 0% 100%;
+    --sidebar-foreground: 240 10% 3.9%;
+    --sidebar-muted: 240 4.8% 95.9%;
+    --sidebar-muted-foreground: 240 3.8% 46.1%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-gradient-from: 0 0% 100%;
+    --sidebar-gradient-to: 0 0% 95%;
+  }
+
+  /* Teal theme */
+  .theme-teal {
+    --primary: 180 70% 45%;
+    --primary-foreground: 0 0% 98%;
+    --sidebar: 180 70% 45%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-muted: 180 70% 40%;
+    --sidebar-muted-foreground: 0 0% 90%;
+    --sidebar-accent: 180 70% 35%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-gradient-from: 180 70% 45%;
+    --sidebar-gradient-to: 180 70% 30%;
+  }
+
+  /* Green theme */
+  .theme-green {
+    --primary: 142 76% 36%;
+    --primary-foreground: 0 0% 98%;
+    --sidebar: 142 76% 36%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-muted: 142 76% 32%;
+    --sidebar-muted-foreground: 0 0% 90%;
+    --sidebar-accent: 142 76% 28%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-gradient-from: 142 76% 36%;
+    --sidebar-gradient-to: 142 76% 25%;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  /* Custom scrollbar that only appears when scrolling or when sidebar is expanded */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    transition: scrollbar-color 0.3s ease;
+  }
+
+  .custom-scrollbar:hover {
+    scrollbar-color: hsl(var(--sidebar-muted)) transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+  }
+
+  .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--sidebar-muted));
+  }
+
+  /* Only show scrollbar when sidebar is expanded */
+  .sidebar-collapsed .custom-scrollbar::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  /* Gradient background for sidebar */
+  .sidebar-gradient {
+    background: linear-gradient(135deg, hsl(var(--sidebar-gradient-from)), hsl(var(--sidebar-gradient-to)));
+  }
+
+  /* Solid background for sidebar */
+  .sidebar-solid {
+    background-color: hsl(var(--sidebar));
+  }
+
+  /* Ensure content doesn't shift on mobile when sidebar opens */
+  .mobile-content-wrapper {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  /* Ensure the hamburger button transitions smoothly */
+  #hamburger-button {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  /* Add padding to the top on mobile to account for the hamburger button */
+  .mobile-padding-top {
+    @apply pt-16 md:pt-4;
+  }
+
+  /* Add these new utility classes for the theme switcher */
+  .theme-switcher-button {
+    position: relative;
+    z-index: 45; /* High enough to be visible but below the hamburger */
+  }
+
+  /* Ensure dropdown content is always on top */
+  [data-radix-popper-content-wrapper] {
+    z-index: 100 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Add these mobile-specific utility classes */
+  @media (max-width: 767px) {
+    /* Ensure the sidebar is visible on mobile when expanded */
+    #mobile-sidebar {
+      visibility: visible;
+      transform: translateX(0);
+      transition: transform 0.3s ease-in-out, visibility 0s;
+    }
+
+    /* Hide the sidebar on mobile when collapsed */
+    #mobile-sidebar.sidebar-collapsed {
+      visibility: hidden;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out, visibility 0s 0.3s;
+    }
+
+    /* Ensure the hamburger button is always visible and clickable */
+    #hamburger-button {
+      display: flex;
+      z-index: 50;
+    }
+
+    /* Adjust the sidebar header layout on mobile */
+    #mobile-sidebar .flex.items-center.justify-between {
+      position: relative;
+    }
+
+    /* Ensure the theme switcher is visible on mobile */
+    #mobile-sidebar .theme-switcher-button {
+      position: relative;
+      z-index: 45;
+    }
+
+    /* Ensure dropdown menus work on mobile */
+    [data-radix-popper-content-wrapper] {
+      position: fixed !important;
+      z-index: 100 !important;
+    }
+  }
+}
