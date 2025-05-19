@@ -22,6 +22,15 @@ import {
   Settings,
   Bell,
 } from "lucide-react"
+import { PiCow } from "react-icons/pi";
+import { MdOutlineFoodBank } from "react-icons/md";
+import { PiFarm } from "react-icons/pi";
+import { LuMilk } from "react-icons/lu";
+import { PiChartPieSliceDuotone } from "react-icons/pi";
+import { AiOutlineTransaction } from "react-icons/ai";
+import { IoSettingsOutline } from "react-icons/io5";
+import { GoBell } from "react-icons/go";
+
 import { cn } from "@/lib/utils"
 import { useSidebar } from "@/context/sidebar-context" // Updated path from contexts to context
 
@@ -58,129 +67,125 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   {
-    title: "Home",
-    href: "/",
-    icon: Home,
-  },
-  {
     title: "Dashboard",
     href: "/dashboard",
     icon: LayoutDashboard,
   },
+ 
   {
-    title: "Cow Management",
-    href: "/cows",
-    icon: CowIcon,
-    submenu: [
-      {
-        title: "All Cows",
-        href: "/cows/all",
-        icon: CowIcon,
-      },
-      {
-        title: "Add New Cow",
-        href: "/cows/new",
-        icon: CowIcon,
-      },
-      {
-        title: "Categories",
-        href: "/cows/categories",
-        icon: CowIcon,
-      },
-    ],
+    title: "Cattle",
+    href: "/cattle",
+    icon: PiCow,
+    // submenu: [
+    //   {
+    //     title: "All Cows",
+    //     href: "/cows/all",
+    //     icon: CowIcon,
+    //   },
+    //   {
+    //     title: "Add New Cow",
+    //     href: "/cows/new",
+    //     icon: CowIcon,
+    //   },
+    //   {
+    //     title: "Categories",
+    //     href: "/cows/categories",
+    //     icon: CowIcon,
+    //   },
+    // ],
   },
   {
-    title: "Milk Management",
-    href: "/milk",
-    icon: Droplets,
-    submenu: [
-      {
-        title: "Production",
-        href: "/milk/production",
-        icon: Droplets,
-      },
-      {
-        title: "Sales",
-        href: "/milk/sales",
-        icon: Droplets,
-      },
-    ],
-  },
-  {
-    title: "Inventory",
-    href: "/inventory",
-    icon: Warehouse,
-  },
-  {
-    title: "Health",
-    href: "/health",
-    icon: Stethoscope,
-    submenu: [
-      {
-        title: "Treatments",
-        href: "/health/treatments",
-        icon: Stethoscope,
-      },
-      {
-        title: "Vaccinations",
-        href: "/health/vaccinations",
-        icon: Stethoscope,
-      },
-    ],
-  },
-  {
-    title: "Events",
-    href: "/events",
-    icon: CalendarDays,
-  },
-  {
-    title: "Reports",
-    href: "/reports",
-    icon: BarChart3,
+    title: "Feed Management",
+    href: "/feed-management",
+    icon: MdOutlineFoodBank,
+    // submenu: [
+    //   {
+    //     title: "Production",
+    //     href: "/milk/production",
+    //     icon: Droplets,
+    //   },
+    //   {
+    //     title: "Sales",
+    //     href: "/milk/sales",
+    //     icon: Droplets,
+    //   },
+    // ],
   },
   {
     title: "Farm Management",
-    href: "/farm",
-    icon: Building,
-    submenu: [
-      {
-        title: "Shades",
-        href: "/farm/shades",
-        icon: Building,
-      },
-      {
-        title: "Pastures",
-        href: "/farm/pastures",
-        icon: Leaf,
-      },
-    ],
+    href: "/farm-management",
+    icon: PiFarm,
   },
   {
-    title: "Breeding",
-    href: "/breeding",
-    icon: Baby,
-    submenu: [
-      {
-        title: "Insemination",
-        href: "/breeding/insemination",
-        icon: Baby,
-      },
-      {
-        title: "Lactations",
-        href: "/breeding/lactations",
-        icon: Milk,
-      },
-    ],
+    title: "Milk",
+    href: "/milk",
+    icon: LuMilk,
+    // submenu: [
+    //   {
+    //     title: "Treatments",
+    //     href: "/health/treatments",
+    //     icon: Stethoscope,
+    //   },
+    //   {
+    //     title: "Vaccinations",
+    //     href: "/health/vaccinations",
+    //     icon: Stethoscope,
+    //   },
+    // ],
   },
+  {
+    title: "Farm Reports",
+    href: "/farm-reports",
+    icon: PiChartPieSliceDuotone,
+  },
+  {
+    title: "Sales & Expenses",
+    href: "/sales-expenses",
+    icon: AiOutlineTransaction,
+  },
+  // {
+  //   title: "Farm Management",
+  //   href: "/farm",
+  //   icon: Building,
+  //   submenu: [
+  //     {
+  //       title: "Shades",
+  //       href: "/farm/shades",
+  //       icon: Building,
+  //     },
+  //     {
+  //       title: "Pastures",
+  //       href: "/farm/pastures",
+  //       icon: Leaf,
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Breeding",
+  //   href: "/breeding",
+  //   icon: Baby,
+  //   submenu: [
+  //     {
+  //       title: "Insemination",
+  //       href: "/breeding/insemination",
+  //       icon: Baby,
+  //     },
+  //     {
+  //       title: "Lactations",
+  //       href: "/breeding/lactations",
+  //       icon: Milk,
+  //     },
+  //   ],
+  // },
   {
     title: "Settings",
     href: "/settings",
-    icon: Settings,
+    icon: IoSettingsOutline,
   },
   {
     title: "Notifications",
     href: "/notifications",
-    icon: Bell,
+    icon: GoBell,
   },
 ]
 

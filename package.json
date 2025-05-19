@@ -15,6 +15,7 @@
     "db:reset": "pnpm docker-dev db:reset && pnpm db migrate dev",
     "dev": "turbo run dev",
     "docker-dev": "pnpm --filter @rakhal/docker-dev",
+    "client":"pnpm --filter @rakhal/client-v1 dev",
     "format": "prettier --write .",
     "lint": "turbo run lint",
     "test": "turbo run test"
