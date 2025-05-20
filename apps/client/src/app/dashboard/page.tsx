@@ -1,15 +1,20 @@
-import type { Metadata } from "next"
+import PageHeader from "@/components/ui/section-header";
+
+import type { Metadata } from "next";
+import ExpectedReproductiveEventsRow from "./_components/expected-reproductive-events-row";
+import CurrentStatusRow from "./_components/current-cattle-status-row";
 
 export const metadata: Metadata = {
   title: "Dashboard - Rakhal",
   description: "Cattle Management Dashboard",
-}
+};
 
 export default function DashboardPage() {
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-2">Dashboard</h1>
-      <p className="text-muted-foreground">Coming Soon...</p>
+    <div className="space-y-6">
+      <PageHeader>Dashboard</PageHeader>
+      <ExpectedReproductiveEventsRow />
+      <CurrentStatusRow />
     </div>
-  )
+  );
 }

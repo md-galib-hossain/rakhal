@@ -134,8 +134,10 @@ export function Sidebar() {
         <span className="sr-only">Toggle Sidebar</span>
       </Button>
 
+
+
       {/* Sidebar */}
-      <aside
+       <aside
         id="mobile-sidebar"
         ref={sidebarRef}
         className={cn(
@@ -146,8 +148,8 @@ export function Sidebar() {
           isMobile && !isExpanded && "-translate-x-full",
           "border-r border-sidebar-muted shadow-md",
         )}
-        // onMouseEnter={() => !isMobile && !isInteracting && setIsExpanded(true)}
-        // onMouseLeave={() => !isMobile && !isInteracting && setIsExpanded(false)}
+        onMouseEnter={() => !isMobile && !isInteracting && setIsExpanded(true)}
+        onMouseLeave={() => !isMobile && !isInteracting && setIsExpanded(false)}
         aria-hidden={isMobile && !isExpanded}
         onClick={(e) => {
           // Prevent clicks inside the sidebar from closing it

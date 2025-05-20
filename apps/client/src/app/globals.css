@@ -6,6 +6,7 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
+
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
@@ -34,6 +35,10 @@
     --sidebar-gradient-to: 0 0% 95%;
   }
 
+  
+@theme {
+  --font-primary:var(--font-montserrat)
+}
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
@@ -95,6 +100,7 @@
   /* Light theme */
   .theme-light {
     --primary: 0 0% 100%;
+    --background:210, 33%, 98%;
     --primary-foreground: 240 10% 3.9%;
     --sidebar: 0 0% 100%;
     --sidebar-foreground: 240 10% 3.9%;
@@ -148,6 +154,18 @@
     scrollbar-color: transparent transparent;
     transition: scrollbar-color 0.3s ease;
   }
+
+    .text_brand_primary
+    {
+      @apply text-[#474a60]
+    }
+     .text_brand_secondary
+    {
+      @apply text-[#9da7b9]
+    }
+    .border_brand_primary {
+      @apply border-[#e2e3e6]
+    }
 
   .custom-scrollbar:hover {
     scrollbar-color: hsl(var(--sidebar-muted)) transparent;
