@@ -1,6 +1,251 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@source '../../*.{js,ts,jsx,tsx,mdx}';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-sidebar: hsl(var(--sidebar));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-muted: hsl(var(--sidebar-muted));
+  --color-sidebar-muted-foreground: hsl(var(--sidebar-muted-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  @media (width >= --theme(--breakpoint-sm)) {
+    max-width: none;
+  }
+  @media (width >= 1400px) {
+    max-width: 1400px;
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@theme inline{
+  --font-primary:var(--font-montserrat)
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility custom-scrollbar {
+  /* Custom scrollbar that only appears when scrolling or when sidebar is expanded */
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s ease;
+
+  &:hover {
+    scrollbar-color: hsl(var(--sidebar-muted)) transparent;
+  }
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--sidebar-muted));
+  }
+
+  /* Only show scrollbar when sidebar is expanded */
+  .sidebar-collapsed &::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  /* Add these mobile-specific utility classes */
+}
+
+@utility text_brand_primary {
+  @apply text-[#474a60];
+
+  /* Add these mobile-specific utility classes */
+}
+
+@utility text_brand_secondary {
+  @apply text-[#9da7b9];
+
+  /* Add these mobile-specific utility classes */
+}
+
+@utility border_brand_primary {
+  @apply border-[#e2e3e6];
+
+  /* Add these mobile-specific utility classes */
+}
+
+@utility sidebar-collapsed {
+  /* Only show scrollbar when sidebar is expanded */
+  & .custom-scrollbar::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  /* Add these mobile-specific utility classes */
+  @media (max-width: 767px) {
+    /* Hide the sidebar on mobile when collapsed */
+    &#mobile-sidebar {
+      visibility: hidden;
+      transform: translateX(-100%);
+      transition:
+        transform 0.3s ease-in-out,
+        visibility 0s 0.3s;
+    }
+  }
+}
+
+@utility sidebar-gradient {
+  /* Gradient background for sidebar */
+  background: linear-gradient(
+    135deg,
+    hsl(var(--sidebar-gradient-from)),
+    hsl(var(--sidebar-gradient-to))
+  );
+
+  /* Add these mobile-specific utility classes */
+}
+
+@utility sidebar-solid {
+  /* Solid background for sidebar */
+  background-color: hsl(var(--sidebar));
+
+  /* Add these mobile-specific utility classes */
+}
+
+@utility mobile-content-wrapper {
+  /* Ensure content doesn't shift on mobile when sidebar opens */
+  @apply transition-all duration-300 ease-in-out;
+
+  /* Add these mobile-specific utility classes */
+}
+
+@utility mobile-padding-top {
+  /* Add padding to the top on mobile to account for the hamburger button */
+  @apply pt-16 md:pt-4;
+
+  /* Add these mobile-specific utility classes */
+}
+
+@utility theme-switcher-button {
+  /* Add these new utility classes for the theme switcher */
+  position: relative;
+  z-index: 45; /* High enough to be visible but below the hamburger */
+
+  /* Add these mobile-specific utility classes */
+  @media (max-width: 767px) {
+    /* Ensure the theme switcher is visible on mobile */
+    #mobile-sidebar & {
+      position: relative;
+      z-index: 45;
+    }
+  }
+}
+
+@utility flex {
+  /* Add these mobile-specific utility classes */
+  @media (max-width: 767px) {
+    /* Adjust the sidebar header layout on mobile */
+    #mobile-sidebar &.items-center.justify-between {
+      position: relative;
+    }
+  }
+}
+
+@utility items-center {
+  /* Add these mobile-specific utility classes */
+  @media (max-width: 767px) {
+    /* Adjust the sidebar header layout on mobile */
+    #mobile-sidebar &.flex.justify-between {
+      position: relative;
+    }
+  }
+}
+
+@utility justify-between {
+  /* Add these mobile-specific utility classes */
+  @media (max-width: 767px) {
+    /* Adjust the sidebar header layout on mobile */
+    #mobile-sidebar &.flex.items-center {
+      position: relative;
+    }
+  }
+}
 
 @layer base {
   :root {
@@ -146,81 +391,10 @@
 }
 
 @layer utilities {
-  /* Custom scrollbar that only appears when scrolling or when sidebar is expanded */
-  .custom-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: transparent transparent;
-    transition: scrollbar-color 0.3s ease;
-  }
-
-    .text_brand_primary
-    {
-      @apply text-[#474a60]
-    }
-     .text_brand_secondary
-    {
-      @apply text-[#9da7b9]
-    }
-    .border_brand_primary {
-      @apply border-[#e2e3e6]
-    }
-
-  .custom-scrollbar:hover {
-    scrollbar-color: hsl(var(--sidebar-muted)) transparent;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: transparent;
-    border-radius: 20px;
-    transition: background-color 0.3s ease;
-  }
-
-  .custom-scrollbar:hover::-webkit-scrollbar-thumb {
-    background-color: hsl(var(--sidebar-muted));
-  }
-
-  /* Only show scrollbar when sidebar is expanded */
-  .sidebar-collapsed .custom-scrollbar::-webkit-scrollbar {
-    width: 0px;
-  }
-
-  /* Gradient background for sidebar */
-  .sidebar-gradient {
-    background: linear-gradient(135deg, hsl(var(--sidebar-gradient-from)), hsl(var(--sidebar-gradient-to)));
-  }
-
-  /* Solid background for sidebar */
-  .sidebar-solid {
-    background-color: hsl(var(--sidebar));
-  }
-
-  /* Ensure content doesn't shift on mobile when sidebar opens */
-  .mobile-content-wrapper {
-    @apply transition-all duration-300 ease-in-out;
-  }
 
   /* Ensure the hamburger button transitions smoothly */
   #hamburger-button {
     @apply transition-all duration-300 ease-in-out;
-  }
-
-  /* Add padding to the top on mobile to account for the hamburger button */
-  .mobile-padding-top {
-    @apply pt-16 md:pt-4;
-  }
-
-  /* Add these new utility classes for the theme switcher */
-  .theme-switcher-button {
-    position: relative;
-    z-index: 45; /* High enough to be visible but below the hamburger */
   }
 
   /* Ensure dropdown content is always on top */
@@ -228,8 +402,6 @@
     z-index: 100 !important;
     pointer-events: auto !important;
   }
-
-  /* Add these mobile-specific utility classes */
   @media (max-width: 767px) {
     /* Ensure the sidebar is visible on mobile when expanded */
     #mobile-sidebar {
@@ -238,28 +410,10 @@
       transition: transform 0.3s ease-in-out, visibility 0s;
     }
 
-    /* Hide the sidebar on mobile when collapsed */
-    #mobile-sidebar.sidebar-collapsed {
-      visibility: hidden;
-      transform: translateX(-100%);
-      transition: transform 0.3s ease-in-out, visibility 0s 0.3s;
-    }
-
     /* Ensure the hamburger button is always visible and clickable */
     #hamburger-button {
       display: flex;
       z-index: 50;
-    }
-
-    /* Adjust the sidebar header layout on mobile */
-    #mobile-sidebar .flex.items-center.justify-between {
-      position: relative;
-    }
-
-    /* Ensure the theme switcher is visible on mobile */
-    #mobile-sidebar .theme-switcher-button {
-      position: relative;
-      z-index: 45;
     }
 
     /* Ensure dropdown menus work on mobile */

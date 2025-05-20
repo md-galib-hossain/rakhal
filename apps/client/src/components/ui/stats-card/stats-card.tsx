@@ -38,7 +38,7 @@ const Card = ({ children, className, style }: CardProps) => {
   return (
     <div
       className={cn(
-        "p-4 bg-white shadow-sm border border_brand_primary rounded-[0.4rem] flex flex-col gap-4",
+        "p-4 bg-white shadow-xs border border_brand_primary rounded-[0.4rem] flex flex-col gap-4",
         className
       )}
       style={style}
@@ -60,7 +60,7 @@ const Header = ({
     <div className={cn("flex flex-col", className)}>
       <p
         className={cn(
-          "text-base text-gray-400 text_brand_secondary",
+          "text-base text_brand_secondary",
           titleClassName
         )}
       >
@@ -69,7 +69,7 @@ const Header = ({
       {subtitle && (
         <p
           className={cn(
-            "text-sm text-gray-500 text_brand_secondary",
+            "text-sm text_brand_secondary",
             subtitleClassName
           )}
         >
@@ -85,7 +85,7 @@ const Content = ({ value, className, valueClassName }: StatsCardContentProps) =>
   return (
     <div className={cn("flex items-center", className)}>
       <span
-        className={cn("text-4xl font-bold text_brand_primary font-primary", valueClassName)}
+        className={cn("text-4xl text_brand_primary font-primary ", valueClassName)}
       >
         {value}
       </span>

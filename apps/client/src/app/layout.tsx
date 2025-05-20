@@ -10,7 +10,10 @@ import { SidebarProvider } from "@/context/sidebar-context";
 // const inter = Inter({ subsets: ["latin"] });
 const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: "400",
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+  fallback: [ "sans-serif"],
+
   variable: "--font-montserrat",
 });
 

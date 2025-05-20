@@ -19,31 +19,31 @@ const themeColors = [
     name: "Purple",
     value: "purple",
     solid: "bg-[hsl(262,83%,58%)]",
-    gradient: "bg-gradient-to-br from-[hsl(262,83%,58%)] to-[hsl(262,83%,40%)]",
+    gradient: "bg-linear-to-br from-[hsl(262,83%,58%)] to-[hsl(262,83%,40%)]",
   },
   {
     name: "Dark",
     value: "dark",
     solid: "bg-[hsl(240,10%,3.9%)]",
-    gradient: "bg-gradient-to-br from-[hsl(240,10%,3.9%)] to-[hsl(240,10%,10%)]",
+    gradient: "bg-linear-to-br from-[hsl(240,10%,3.9%)] to-[hsl(240,10%,10%)]",
   },
   {
     name: "Light",
     value: "light",
     solid: "bg-[hsl(0,0%,100%)] border border-gray-200",
-    gradient: "bg-gradient-to-br from-[hsl(0,0%,100%)] to-[hsl(0,0%,95%)] border border-gray-200",
+    gradient: "bg-linear-to-br from-[hsl(0,0%,100%)] to-[hsl(0,0%,95%)] border border-gray-200",
   },
   {
     name: "Teal",
     value: "teal",
     solid: "bg-[hsl(180,70%,45%)]",
-    gradient: "bg-gradient-to-br from-[hsl(180,70%,45%)] to-[hsl(180,70%,30%)]",
+    gradient: "bg-linear-to-br from-[hsl(180,70%,45%)] to-[hsl(180,70%,30%)]",
   },
   {
     name: "Green",
     value: "green",
     solid: "bg-[hsl(142,76%,36%)]",
-    gradient: "bg-gradient-to-br from-[hsl(142,76%,36%)] to-[hsl(142,76%,25%)]",
+    gradient: "bg-linear-to-br from-[hsl(142,76%,36%)] to-[hsl(142,76%,25%)]",
   },
 ]
 
