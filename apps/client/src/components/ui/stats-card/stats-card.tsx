@@ -38,7 +38,7 @@ const Card = ({ children, className, style }: CardProps) => {
   return (
     <div
       className={cn(
-        "p-4 bg-white shadow-xs border border_brand_primary rounded-[0.4rem] flex flex-col gap-4",
+        "p-2 xl:p-4 bg-white shadow-xs border border_brand_primary rounded-[0.4rem] flex flex-col gap-4 justify-between",
         className
       )}
       style={style}
